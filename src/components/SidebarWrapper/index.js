@@ -23,14 +23,14 @@ const SidebarContent = () => {
       <Avatar size={64} icon={<UserOutlined />} />
       <h3>Welcome, Eyitayo</h3>
       <Menu onClick={() => {}} selectedKeys={[]}>
-        <Menu.Item key="join-house" icon={<HomeOutlined />}>
-          <Link to="/houses/join">Join A House</Link>
-        </Menu.Item>
         <Menu.Item key="create-house" icon={<FileAddOutlined />}>
           <Link to="/houses/create">Create New House</Link>
         </Menu.Item>
+        <Menu.Item key="join-house" icon={<HomeOutlined />}>
+          <Link to="/houses/join">Join Existing House</Link>
+        </Menu.Item>
         <Menu.Item key="view-houses" icon={<UnorderedListOutlined />}>
-          <Link to="/houses/all">View Your Houses</Link>
+          <Link to="/houses/all">Manage Your House Tasks</Link>
         </Menu.Item>
         <Menu.Item key="log-out" icon={<LogoutOutlined />}>
           Log Out

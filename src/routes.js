@@ -9,18 +9,22 @@ import {
   Redirect,
 } from "react-router-dom";
 
+import { getAuthToken } from "./utils";
+
 import { createBrowserHistory } from "history";
+import HouseList from "./components/HouseList";
 import { LoginForm } from "./components/login/login";
 import { RegForm } from "./components/register/registration";
 import { NewHouse } from "./components/House/create-house";
 
 import SidebarWrapper from "./components/SidebarWrapper";
+import HouseJoin from "./components/HouseJoin";
 
 export const history = createBrowserHistory();
 
 // would add actual logic for checking if a user is authenticated soon
 
-const isAuthenticated = () => true;
+const isAuthenticated = () => Boolean(getAuthToken());
 
 const privateRouteRender = (Component, props) => {
   if (isAuthenticated()) {
@@ -65,27 +69,32 @@ export default () => (
   <Router history={history}>
     <Switch>
       {/* you just import your component and add it here to be rendered */}
-      <Route exact path="/" component={() => <h2>Home page!!</h2>} />
-      <Route path="/login" component={ LoginForm } />
-      <Route path="/registration" component={ RegForm } />
-      <Route path="/houses/create" component={ NewHouse } />
+
+      <Route exact path="/" component={() => <Redirect to="/login" />} />
+      <PrivateRoute path="/houses/join" component={HouseJoin} />
+      <Route path="/login" component={LoginForm} />
+      <Route path="/registration" component={RegForm} />
+      <Route path="/houses/create" component={NewHouse} />
+      <PrivateRoute
+        path="/houses/create"
+        component={() => <h3>House create !!!</h3>}
+      />
+      <PrivateRoute exact path="/houses/all" component={HouseList} />
+      <PrivateRoute
+        path="/houses/:id"
+        component={() => <h2>House Detail Page</h2>}
+      />
+      <PrivateRoute
+        path="/house/user/join"
+        component={({ location }) => (
+          <Redirect to={{ pathname: "/houses/join", queryString:location.search }} />
+        )}
+      />
       <PrivateRoute
         path="/profile"
         component={() => (
           <h3>You should only see this page if you're authenticated</h3>
         )}
-      />
-      <PrivateRoute
-        path="/houses/join"
-        component={() => <h3>Join House!!</h3>}
-      />
-      <PrivateRoute
-        path="/houses/create"
-        component={() => <h3>Create House!!</h3>}
-      />
-      <PrivateRoute
-        path="/houses/all"
-        component={() => <h3>View your houses!!</h3>}
       />
 
       <Route component={() => <h3>404!</h3>} />

@@ -1,4 +1,8 @@
 @import "~antd/dist/antd.css";
+
+.react-toast-notifications__container {
+  z-index: 1001 !important;
+}
 .App {
   text-align: center;
 }

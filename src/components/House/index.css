@@ -1,0 +1,39 @@
+.house-card .ant-card-meta-title {
+  font-weight: 700;
+}
+
+.house-card {
+  box-shadow: 10px 10px 5px 0px rgba(168, 168, 168, 1);
+  margin-bottom: 10rem;
+}
+.house-card .ant-card-meta {
+  text-align: left;
+}
+
+.house-card .ant-avatar {
+  margin-right: 2px;
+}
+
+.house-card .member-avatars {
+  text-align: left;
+  margin-top: 0.5rem;
+}
+
+.house-card .member-avatars p {
+  color: #ff0066;
+}
+.house-card .anticon svg {
+  color: #ff0066;
+}
+
+.house-share-modal a {
+  font-weight: 700;
+  display: block;
+  font-style: italic;
+}
+
+.house-share-modal .modal-link-wrapper {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}

@@ -1,0 +1,15 @@
+.house-list-wrapper {
+  padding: 30px;
+}
+.house-list-wrapper .house-header {
+  text-align: left;
+  margin-bottom: 20px;
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+.house-list-wrapper .no-house-msg {
+  font-size: 1.2rem;
+  margin: auto;
+  margin-top: 40px;
+}
