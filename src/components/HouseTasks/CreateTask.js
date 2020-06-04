@@ -15,13 +15,13 @@ class EditTask extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            task: { name: "", description: "", frequency: 0 },
+            name: "", description: "", frequency: 0,
             redirect: null
         }
-        this.creatTask = this.createTask.bind(this);
+        this.createTask = this.createTask.bind(this);
     }
     createTask() {
-        client.post(`/house/${this.props.match.match.id}/task/add`).then((_) => {
+        client.post(`/house/${this.props.match.params.id}/task/add`, { name: this.state.name, description: this.state.description, frequency: this.state.frequency }).then((_) => {
             this.setState({ redirect: "/" })
         })
             .catch(error => {
@@ -36,31 +36,16 @@ class EditTask extends React.Component {
         }
         return <Card title={`Create a task`}>
             <Form>
-                <Input value={this.state.task.name} onChange={newValue => {
-                    this.setState(oldstate => {
-                        return {
-                            task: { name: newValue, ...oldstate.task },
-                            ...oldstate
-                        }
-                    })
+                <Input value={this.state.name} onInput={e => {
+                    this.setState({ name: e.target.value })
                 }} />
-                <Input value={this.state.task.description} onChange={newValue => {
-                    this.setState(oldstate => {
-                        return {
-                            task: { description: newValue, ...oldstate.task },
-                            ...oldstate
-                        }
-                    })
+                <Input value={this.state.description} onInput={e => {
+                    this.setState({ description: e.target.value })
                 }} />
-                <Input value={this.state.task.frequency} onChange={newValue => {
-                    this.setState(oldstate => {
-                        return {
-                            task: { frequency: newValue, ...oldstate.task },
-                            ...oldstate
-                        }
-                    })
+                <Input value={this.state.frequency} onInput={e => {
+                    this.setState({ frequency: e.target.value })
                 }} />
-                <Button onClick={this.createTask} />
+                <Button onClick={this.createTask}>Add task</Button>
             </Form>
         </Card>
     }

@@ -82,6 +82,9 @@ export default () => (
       />
       <PrivateRoute exact path="/houses/all" component={HouseList} />
       <PrivateRoute
+      path="/houses/:id/tasks/add"
+        component={CreateTask }/>
+      <PrivateRoute
       path="/houses/:id/tasks"
       component={HouseTasks}/>
       <PrivateRoute
@@ -99,9 +102,7 @@ export default () => (
       path="/task/edit/:id"
       component={EditTask}/>
       
-      <PrivateRoute
-      path="/houses/:id/tasks/add"
-        component={CreateTask }/>
+      
 
       <Route component={() => <h3>404!</h3>} />
     </Switch>
