@@ -15,7 +15,7 @@ import { createBrowserHistory } from "history";
 import HouseList from "./components/HouseList";
 import { LoginForm } from "./components/login/login";
 import { RegForm } from "./components/register/registration";
-import { NewHouse } from "./components/House/create-house";
+import NewHouse from "./components/House/create-house";
 
 import SidebarWrapper from "./components/SidebarWrapper";
 import HouseJoin from "./components/HouseJoin";
@@ -74,7 +74,7 @@ export default () => (
       <PrivateRoute path="/houses/join" component={HouseJoin} />
       <Route path="/login" component={LoginForm} />
       <Route path="/registration" component={RegForm} />
-      <Route path="/houses/create" component={NewHouse} />
+      <PrivateRoute path="/houses/create" component={NewHouse} />
       <PrivateRoute exact path="/houses/all" component={HouseList} />
       <PrivateRoute
         path="/houses/:id"
@@ -83,7 +83,9 @@ export default () => (
       <PrivateRoute
         path="/house/user/join"
         component={({ location }) => (
-          <Redirect to={{ pathname: "/houses/join", queryString:location.search }} />
+          <Redirect
+            to={{ pathname: "/houses/join", queryString: location.search }}
+          />
         )}
       />
       <PrivateRoute

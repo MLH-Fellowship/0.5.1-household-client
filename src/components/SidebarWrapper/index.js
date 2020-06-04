@@ -27,6 +27,7 @@ const SidebarContent = () => {
   return (
     <div className="sidebar-wrapper">
       <Avatar size={64} icon={<UserOutlined />} />
+      <h2>TaskApp 🏘️</h2>
       <h3>Welcome, {getUserName()}</h3>
       <Menu onClick={() => {}} selectedKeys={[]}>
         <Menu.Item key="create-house" icon={<FileAddOutlined />}>

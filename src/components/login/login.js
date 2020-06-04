@@ -41,7 +41,7 @@ export const LoginForm = () => {
       }}
       onFinish={onFinish}
     >
-      <h3>HouseApp.</h3>
+      <h3>TaskApp</h3>
       <Form.Item
         className="input-field"
         name="identifier"

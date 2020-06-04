@@ -34,13 +34,10 @@ const HouseJoin = ({ location }) => {
     if (!success) {
       addToast(data.msg || "An error occured", { appearance: "error" });
     } else {
-      addToast(
-        "Joined house successfuly. Redirecting to your houses page in 5 seconds",
-        {
-          appearance: "success",
-        }
-      );
-      setTimeout(() => (window.location = "/houses/all"), 5500);
+      addToast("Joined house successfuly. Redirecting to your houses page.", {
+        appearance: "success",
+      });
+      setTimeout(() => (window.location = "/houses/all"), 2000);
     }
 
     setLoading(false);

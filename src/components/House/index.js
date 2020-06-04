@@ -72,9 +72,6 @@ const HouseCard = ({ name, id, members, description }) => {
       setJoinLink(url);
     }
   };
-  useEffect(() => {
-    fetchJoinLink(id);
-  });
   return (
     <Card
       className="house-card"
@@ -88,7 +85,15 @@ const HouseCard = ({ name, id, members, description }) => {
         <Link to={`/houses/${id}`}>
           <LoginOutlined key="enter" />
         </Link>,
-        <ShareAltOutlined key="share" onClick={toggleModalState} />,
+        <ShareAltOutlined
+          key="share"
+          onClick={() => {
+            if (!joinLink) {
+              fetchJoinLink(id);
+            }
+            toggleModalState();
+          }}
+        />,
         <DeleteOutlined key="leave" />,
       ]}
     >
@@ -97,7 +102,7 @@ const HouseCard = ({ name, id, members, description }) => {
       {
         <HouseShareModal
           // should fetch/generate invite link
-          shareableLink={joinLink}
+          shareableLink={joinLink || "Loading Link ..."}
           showModal={showModal}
           toggleModalState={toggleModalState}
         />
