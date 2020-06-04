@@ -43,7 +43,7 @@ class HouseTasks extends React.Component {
         return <>
             {
                 this.state.tasks.map((task, taskIndex) => {
-                    return <Col sm={24} md={12} lg={6}>
+                    return <Col sm={24} md={12} lg={6} key={taskIndex}>
                         <Card title={task.name} key={taskIndex}>
                             <p>{task.description}</p>
                             <p>{task.frequency}</p>
