@@ -23,7 +23,8 @@ export const history = createBrowserHistory();
 
 // would add actual logic for checking if a user is authenticated soon
 
-const isAuthenticated = () => Boolean(getAuthToken());
+// const isAuthenticated = () => Boolean(getAuthToken());
+const isAuthenticated = () => true;
 
 const privateRouteRender = (Component, props) => {
   if (isAuthenticated()) {
