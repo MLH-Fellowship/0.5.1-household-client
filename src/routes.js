@@ -16,13 +16,13 @@ import HouseList from "./components/HouseList";
 import { LoginForm } from "./components/login/login";
 import { RegForm } from "./components/register/registration";
 import NewHouse from "./components/House/create-house";
-
 import CreateTask from "./components/HouseTasks/CreateTask";
 import EditTask from "./components/HouseTasks/EditTask";
 import HouseTasks from "./components/HouseTasks/HouseTasks";
 
 import SidebarWrapper from "./components/SidebarWrapper";
 import HouseJoin from "./components/HouseJoin";
+import HouseDetail from "./components/HouseDetail";
 
 export const history = createBrowserHistory();
 
@@ -80,16 +80,9 @@ export default () => (
       <Route path="/registration" component={RegForm} />
       <PrivateRoute path="/houses/create" component={NewHouse} />
       <PrivateRoute exact path="/houses/all" component={HouseList} />
-      <PrivateRoute
-      path="/houses/:id/tasks/add"
-        component={CreateTask }/>
-      <PrivateRoute
-      path="/houses/:id/tasks"
-      component={HouseTasks}/>
-      <PrivateRoute
-        path="/houses/:id"
-        component={() => <h2>House Detail Page</h2>}
-      />
+      <PrivateRoute path="/houses/:id/tasks/add" component={CreateTask} />
+      <PrivateRoute path="/houses/:id/tasks" component={HouseTasks} />
+      <PrivateRoute path="/houses/:id" component={HouseDetail} />
       <PrivateRoute
         path="/house/user/join"
         component={({ location }) => (
@@ -105,11 +98,7 @@ export default () => (
         )}
       />
 
-      <PrivateRoute
-      path="/task/edit/:id"
-      component={EditTask}/>
-      
-      
+      <PrivateRoute path="/task/edit/:id" component={EditTask} />
 
       <Route component={() => <h3>404!</h3>} />
     </Switch>
