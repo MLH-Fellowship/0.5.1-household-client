@@ -21,7 +21,7 @@ class EditTask extends React.Component {
         this.creatTask = this.createTask.bind(this);
     }
     createTask() {
-        client.post(`/house/${this.props.match.match.id}/task/add`).then(result => {
+        client.post(`/house/${this.props.match.match.id}/task/add`).then((_) => {
             this.setState({ redirect: "/" })
         })
             .catch(error => {

@@ -15,24 +15,22 @@ class EditTask extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            loading: true,
-            task: null,
-            redirect: null
+            redirect: null,
+            name: "",
+            description: "",
+            frequency: 0,
+            loading: true
         }
-        this.fetchTask = this.fetchTask.bind(this);
         this.updateTask = this.updateTask.bind(this);
     }
-    fetchTask() {
-        client.get(`/task/${this.props.match.match.id}`).then(result => {
-            this.setState({ loading: false, task: result.data.data });
-        }).catch(error => {
-            this.props.addToast("Fetched failed to fetch tasks.", {
-                appearance: "error",
-            });
-        })
-    }
+    formRef = React.createRef();
     updateTask() {
-        client.post(`/task/${this.props.match.match.id}/update`).then(result => {
+        client.post(`/task/${this.props.match.params.id}/update`, {
+            name: this.state.name,
+            description: this.state.description,
+            frequency: this.state.frequency
+        }).then(result => {
+            console.log(result);
             this.setState({ redirect: "/" })
         })
             .catch(error => {
@@ -41,40 +39,41 @@ class EditTask extends React.Component {
                 });
             })
     }
+    componentDidMount() {
+        client.get(`/task/${this.props.match.params.id}`).then(result => {
+            console.log(result);
+            console.log(this.formRef);
+            this.setState({ loading: false, name: result.data.data.name, description: result.data.data.description, frequency: result.data.data.frequency });
+        }).catch(error => {
+            console.log(error);
+            this.props.addToast("Fetched failed to fetch tasks.", {
+                appearance: "error",
+            });
+        })
+    }
     render() {
         if (this.state.redirect) {
             return <Redirect to={this.state.redirect} />
         }
         if (this.state.loading) {
-            return <p>Loading</p>
+            return <p>Loading...</p>
         }
-        return <Card title={`Edit task ${this.state.task.name}`}>
-            <Form>
-                <Input value={this.state.task.name} onChange={newValue => {
-                    this.setState(oldstate => {
-                        return {
-                            task: { name: newValue, ...oldstate.task },
-                            ...oldstate
-                        }
-                    })
-                }} />
-                <Input value={this.state.task.description} onChange={newValue => {
-                    this.setState(oldstate => {
-                        return {
-                            task: { description: newValue, ...oldstate.task },
-                            ...oldstate
-                        }
-                    })
-                }} />
-                <Input value={this.state.task.frequency} onChange={newValue => {
-                    this.setState(oldstate => {
-                        return {
-                            task: { frequency: newValue, ...oldstate.task },
-                            ...oldstate
-                        }
-                    })
-                }} />
-                <Button onClick={this.updateTask} />
+
+        return <Card title={`Edit task "${this.state.name}"`}>
+            <Form name="edit_task" ref={this.formRef} initialValues={
+                {
+                    name: this.state.name,
+                    frequency: this.state.frequency,
+                    description: this.state.description
+                }
+            }>
+                <Input name="name" value={this.state.name} onInput={e => this.setState({ name: e.target.value })} />
+                <br />
+                <Input name="description" value={this.state.description} onInput={e => this.setState({ description: e.target.value })} />
+                <br />
+                <Input name="frequency" value={this.state.frequency} onInput={e => this.setState({ frequency: e.target.value })} />
+                <br />
+                <Button onClick={this.updateTask}>Update Task</Button>
             </Form>
         </Card>
     }
