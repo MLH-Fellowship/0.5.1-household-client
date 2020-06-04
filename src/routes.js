@@ -75,10 +75,6 @@ export default () => (
       <Route path="/login" component={LoginForm} />
       <Route path="/registration" component={RegForm} />
       <Route path="/houses/create" component={NewHouse} />
-      <PrivateRoute
-        path="/houses/create"
-        component={() => <h3>House create !!!</h3>}
-      />
       <PrivateRoute exact path="/houses/all" component={HouseList} />
       <PrivateRoute
         path="/houses/:id"
