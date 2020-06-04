@@ -13,7 +13,6 @@ const client = new HTTPClient(process.env.REACT_APP_API_URL, {
 export const LoginForm = () => {
   const { addToast } = useToasts();
   const onFinish = async (values) => {
-    console.log("Received values of form: ", values);
     const res = await client.post("auth/login", {
       identifier: values["identifier"],
       password: values["password"],
