@@ -16,6 +16,10 @@ import HouseList from "./components/HouseList";
 import { LoginForm } from "./components/login/login";
 import { RegForm } from "./components/register/registration";
 
+import CreateTask from "./components/HouseTasks/CreateTask";
+import EditTask from "./components/HouseTasks/EditTask";
+import HouseTasks from "./components/HouseTasks/HouseTasks";
+
 import SidebarWrapper from "./components/SidebarWrapper";
 import HouseJoin from "./components/HouseJoin";
 
@@ -87,6 +91,17 @@ export default () => (
           <h3>You should only see this page if you're authenticated</h3>
         )}
       />
+
+      <PrivateRoute
+      path="/task/edit/:id"
+      render={(match) => <EditTask match={match}/>}/>
+      <PrivateRoute
+      path="/houses/:id/tasks"
+      render={(match) => <CreateTask match={match}/>}/>
+      <PrivateRoute
+      path="/houses/:id/tasks/add"
+        render={(match) => <CreateTask match={match}/> }/>
+
 
       <Route component={() => <h3>404!</h3>} />
     </Switch>
