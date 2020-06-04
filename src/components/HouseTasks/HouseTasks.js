@@ -20,8 +20,10 @@ class HouseTasks extends React.Component {
         this.fetchTasks = this.fetchTasks.bind(this);
     }
     fetchTasks() {
-        client.get(`/house/${this.props.match.match.params.houseID}/tasks/all`)
+        console.log(this.props);
+        client.get(`/house/${this.props.match.params.id}/task/all`)
             .then(result => {
+                console.log(result)
                 this.setState({ tasks: result.data.data, loading: false });
             })
             .catch(error => {
@@ -37,6 +39,7 @@ class HouseTasks extends React.Component {
         if (this.state.loading) {
             return <p>Loading...</p>
         }
+        console.log(this.state);
         return <>
             {
                 this.state.tasks.map((task, taskIndex) => {
@@ -44,7 +47,7 @@ class HouseTasks extends React.Component {
                         <Card title={task.name} key={taskIndex}>
                             <p>{task.description}</p>
                             <p>{task.frequency}</p>
-                            <Link to={`/task/edit/${task.id}`}>Edit task</Link>
+                            <Link to={`/task/edit/${task.task_id}`}>Edit task</Link>
                         </Card>
                     </Col>
                 })
