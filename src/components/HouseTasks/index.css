@@ -1,0 +1,18 @@
+.house-tasks {
+  margin: 2.5rem;
+}
+.due-date {
+  text-align: left;
+  font-weight: 600;
+  margin-top: 40px;
+}
+
+.house-tasks .button-wrapper {
+  display: flex;
+}
+
+.house-tasks .frequency {
+  text-align: left;
+  font-weight: 400;
+  font-style: italic;
+}
