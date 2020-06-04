@@ -15,6 +15,7 @@ import { createBrowserHistory } from "history";
 import HouseList from "./components/HouseList";
 import { LoginForm } from "./components/login/login";
 import { RegForm } from "./components/register/registration";
+import NewHouse from "./components/House/create-house";
 
 import CreateTask from "./components/HouseTasks/CreateTask";
 import EditTask from "./components/HouseTasks/EditTask";
@@ -72,14 +73,12 @@ export default () => (
   <Router history={history}>
     <Switch>
       {/* you just import your component and add it here to be rendered */}
+
       <Route exact path="/" component={() => <Redirect to="/login" />} />
       <PrivateRoute path="/houses/join" component={HouseJoin} />
       <Route path="/login" component={LoginForm} />
       <Route path="/registration" component={RegForm} />
-      <PrivateRoute
-        path="/houses/create"
-        component={() => <h3>House create !!!</h3>}
-      />
+      <PrivateRoute path="/houses/create" component={NewHouse} />
       <PrivateRoute exact path="/houses/all" component={HouseList} />
       <PrivateRoute
       path="/houses/:id/tasks/add"
@@ -90,6 +89,14 @@ export default () => (
       <PrivateRoute
         path="/houses/:id"
         component={() => <h2>House Detail Page</h2>}
+      />
+      <PrivateRoute
+        path="/house/user/join"
+        component={({ location }) => (
+          <Redirect
+            to={{ pathname: "/houses/join", queryString: location.search }}
+          />
+        )}
       />
       <PrivateRoute
         path="/profile"
