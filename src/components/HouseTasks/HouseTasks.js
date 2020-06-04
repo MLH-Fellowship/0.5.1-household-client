@@ -37,15 +37,19 @@ class HouseTasks extends React.Component {
         if (this.state.loading) {
             return <p>Loading...</p>
         }
-        return <Col sm={24} md={12} lg={6}>
-            {this.state.tasks.map((task, taskIndex) => {
-                return <Card title={task.name} key={taskIndex}>
-                    <p>{task.description}</p>
-                    <p>{task.frequency}</p>
-                    <Link to={`/task/edit/${task.id}`}>Edit task</Link>
-                </Card>
-            })}
-        </Col>
+        return <>
+            {
+                this.state.tasks.map((task, taskIndex) => {
+                    return <Col sm={24} md={12} lg={6}>
+                        <Card title={task.name} key={taskIndex}>
+                            <p>{task.description}</p>
+                            <p>{task.frequency}</p>
+                            <Link to={`/task/edit/${task.id}`}>Edit task</Link>
+                        </Card>
+                    </Col>
+                })
+            }
+        </>
     }
 }
 
