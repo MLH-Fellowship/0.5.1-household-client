@@ -1,12 +1,21 @@
-import React from 'react';
-import { Form, Input, Button } from 'antd';
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import React from "react";
+import { Form, Input, Button } from "antd";
+import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import HTTPClient from "../../HTTPClient";
+import "./login.css";
 
-import './login.css';
+const client = new HTTPClient(process.env.REACT_APP_API_URL, {
+  Authorization: localStorage.getItem("token"),
+});
 
 export const LoginForm = () => {
-  const onFinish = values => {
-    console.log('Received values of form: ', values);
+  const onFinish = async (values) => {
+    console.log("Received values of form: ", values);
+    const res = await client.post("auth/login", {
+      identifier: values["identifier"],
+      password: values["password"],
+    });
+    console.log(res);
   };
 
   return (
@@ -18,23 +27,28 @@ export const LoginForm = () => {
       }}
       onFinish={onFinish}
     >
-      <Form.Item className="input-field"
-        name="username"
+      <h3>HouseApp.</h3>
+      <Form.Item
+        className="input-field"
+        name="identifier"
         rules={[
           {
             required: true,
-            message: 'Please input your Username!',
+            message: "Please input your Username / Email !",
           },
         ]}
       >
-        <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+        <Input
+          prefix={<UserOutlined className="site-form-item-icon" />}
+          placeholder="Username / Email"
+        />
       </Form.Item>
       <Form.Item
         name="password"
         rules={[
           {
             required: true,
-            message: 'Please input your Password!',
+            message: "Please input your Password!",
           },
         ]}
       >
@@ -52,10 +66,16 @@ export const LoginForm = () => {
           </a>
         </Form.Item>
         <Form.Item>
-          <Button type="primary" htmlType="submit" className="login-form-button">
+          <Button
+            type="primary"
+            htmlType="submit"
+            className="login-form-button"
+          >
             Log In
           </Button>
-          <p><a href="./registration">Or Register Now!</a></p>
+          <p>
+            <a href="./registration">Or Register Now!</a>
+          </p>
         </Form.Item>
       </Form.Item>
     </Form>

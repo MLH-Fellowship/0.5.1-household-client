@@ -20,9 +20,9 @@ const errorInterceptor = (errorObject) => {
   } else if (status === 404) {
     message = "Not found";
   } else if (status === 401) {
-    message = "Invalid Credentials.";
+    message = "Unauthorized";
   } else if (status === 403) {
-    message = "You are not allowed to perform this operation";
+    message = "Invalid Credentials.";
   } else if (status === 400) {
     message = "Bad request.";
   }
@@ -73,4 +73,3 @@ class HTTPClient {
 }
 
 export default HTTPClient;
-
