@@ -13,9 +13,6 @@ export const LoginForm = () => {
     <Form
       name="normal_login"
       className="form-box"
-      initialValues={{
-        remember: true,
-      }}
       onFinish={onFinish}
     >
       <Form.Item className="input-field"
