@@ -40,6 +40,7 @@ const HouseJoin = ({ location }) => {
           appearance: "success",
         }
       );
+      setTimeout(() => (window.location = "/houses/all"), 5500);
     }
 
     setLoading(false);
