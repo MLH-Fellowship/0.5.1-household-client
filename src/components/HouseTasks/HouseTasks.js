@@ -1,7 +1,7 @@
 import React from "react";
 import HTTPClient from "../../HTTPClient";
 import { getAuthHeaders } from "../../utils";
-import { Col, Card, Skeleton, Avatar, Row, Button } from "antd";
+import { Col, Card, Skeleton, Empty, Avatar, Row, Button } from "antd";
 import {
   SettingOutlined,
   EditOutlined,
@@ -50,11 +50,21 @@ class HouseTasks extends React.Component {
     this.fetchTasks();
   }
   render() {
+    const { tasks } = this.state;
     if (this.state.loading) {
       return <p>Loading...</p>;
     }
+    if (!tasks || tasks.length === 0) {
+      return (
+        <div className="no-house-msg">
+          <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+          <p className="">
+            You've no tasks yet. <Link>Create a task.</Link>
+          </p>
+        </div>
+      );
+    }
     console.log(this.state);
-    // add fallback for no cards!!
     return (
       <div className="house-tasks">
         <Row gutter={[24, 16]}>
@@ -64,7 +74,12 @@ class HouseTasks extends React.Component {
                 <Col sm={24} md={12} lg={6} key={taskIndex}>
                   <Card
                     actions={[
-                      <Link to={`/task/edit/${task.task_id}`}>
+                      <Link
+                        to={{
+                          pathname: `/task/edit/${task.task_id}`,
+                          state: { houseId: this.props.houseId },
+                        }}
+                      >
                         <EditOutlined key="edit" />
                       </Link>,
                       <EllipsisOutlined key="ellipsis" />,
@@ -84,7 +99,7 @@ class HouseTasks extends React.Component {
                       Due Next By -{" "}
                       {randomDate(new Date(2020, 0, 1), new Date(2020, 5, 5))}
                     </h3>
-                    <h3 className='frequency'>Frequency - {task.frequency}</h3>
+                    <h3 className="frequency">Frequency - {task.frequency}</h3>
                     <div className="button-wrapper">
                       <Button danger>Send Reminder</Button>
                       <Button danger> Re assign </Button>
