@@ -6,10 +6,16 @@ import "./index.css";
 
 const { Search } = Input;
 
-const HouseJoin = () => {
+const HouseJoin = ({ location }) => {
+  const { queryString } = location;
+  let initialCode = "";
+  if (queryString) {
+    initialCode = queryString.split("?token=")[1];
+  }
   const { addToast } = useToasts();
   const [loading, setLoading] = useState(false);
-  const onJoinAttempt = (code) => {
+  const [code, setCode] = useState(initialCode);
+  const onJoinAttempt = () => {
     setLoading(true);
     addToast(
       "Joined house successfuly. Redirecting to house page in 5 seconds",
@@ -25,7 +31,9 @@ const HouseJoin = () => {
       <Search
         disabled={loading}
         placeholder="input search text"
-        onSearch={(value) => onJoinAttempt(value)}
+        value={code}
+        onChange={(e) => setCode(e.target.value)}
+        onSearch={onJoinAttempt}
         enterButton={!loading ? "Join House" : "Please wait ..."}
       />
     </div>

@@ -82,6 +82,12 @@ export default () => (
         component={() => <h2>House Detail Page</h2>}
       />
       <PrivateRoute
+        path="/house/user/join"
+        component={({ location }) => (
+          <Redirect to={{ pathname: "/houses/join", queryString:location.search }} />
+        )}
+      />
+      <PrivateRoute
         path="/profile"
         component={() => (
           <h3>You should only see this page if you're authenticated</h3>

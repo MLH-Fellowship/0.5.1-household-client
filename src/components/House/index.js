@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Card, Avatar, Skeleton } from "antd";
-
+import HTTPClient from "../../HTTPClient";
 import {
   LoginOutlined,
   DeleteOutlined,
@@ -11,7 +11,6 @@ import {
 import HouseShareModal from "./HouseShareModal";
 
 import "./index.css";
-
 const Meta = Card.Meta;
 
 const MemberAvatar = ({ member }) => {
@@ -62,9 +61,20 @@ const HouseCard = ({ name, id, members, description }) => {
   const [showModal, setShowModal] = useState(false);
   const toggleModalState = () => setShowModal(!showModal);
   const [joinLink, setJoinLink] = useState(null);
-  fetch(`${process.env.REACT_APP_URI_URL}/${id}/user/invite`, { headers: { "Authorization": localStorage.getItem("token") } })
-    .then(joinLink => setJoinLink(joinLink))
-    .catch(error => console.log(error));
+
+  const fetchJoinLink = async (id) => {
+    const client = new HTTPClient(process.env.REACT_APP_API_URL, {
+      Authorization: localStorage.getItem("token"),
+    });
+    const { data, success } = await client.get(`house/${id}/user/invite`);
+    if (success) {
+      const url = `${window.location.host}${data.data}`;
+      setJoinLink(url);
+    }
+  };
+  useEffect(() => {
+    fetchJoinLink(id);
+  });
   return (
     <Card
       className="house-card"
@@ -84,13 +94,14 @@ const HouseCard = ({ name, id, members, description }) => {
     >
       <Meta title={name} description={description} />
       {renderMemberAvatars(members)}
-      {joinLink ? <HouseShareModal
-        // should fetch/generate invite link
-        shareableLink={joinLink}
-        showModal={showModal}
-        toggleModalState={toggleModalState}
-      /> : <p>Loading...</p>}
-
+      {
+        <HouseShareModal
+          // should fetch/generate invite link
+          shareableLink={joinLink}
+          showModal={showModal}
+          toggleModalState={toggleModalState}
+        />
+      }
     </Card>
   );
 };
