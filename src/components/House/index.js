@@ -61,6 +61,10 @@ const LoadingHouseCard = () => {
 const HouseCard = ({ name, id, members, description }) => {
   const [showModal, setShowModal] = useState(false);
   const toggleModalState = () => setShowModal(!showModal);
+  const [joinLink, setJoinLink] = useState(null);
+  fetch(`${process.env.REACT_APP_URI_URL}/${id}/user/invite`, { headers: { "Authorization": localStorage.getItem("token") } })
+    .then(joinLink => setJoinLink(joinLink))
+    .catch(error => console.log(error));
   return (
     <Card
       className="house-card"
@@ -80,13 +84,13 @@ const HouseCard = ({ name, id, members, description }) => {
     >
       <Meta title={name} description={description} />
       {renderMemberAvatars(members)}
-
-      <HouseShareModal
+      {joinLink ? <HouseShareModal
         // should fetch/generate invite link
-        shareableLink={"www.google.com"}
+        shareableLink={joinLink}
         showModal={showModal}
         toggleModalState={toggleModalState}
-      />
+      /> : <p>Loading...</p>}
+
     </Card>
   );
 };
