@@ -12,16 +12,22 @@ import {
 } from "@ant-design/icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
-
+import { getUserName, removeAuthToken, removeAuthUser } from "../../utils";
 import "./styles.css";
 
 const mql = window.matchMedia(`(min-width: 800px)`);
+
+const logoutHandler = () => {
+  removeAuthToken();
+  removeAuthUser();
+  window.location = "/login";
+};
 
 const SidebarContent = () => {
   return (
     <div className="sidebar-wrapper">
       <Avatar size={64} icon={<UserOutlined />} />
-      <h3>Welcome, Eyitayo</h3>
+      <h3>Welcome, {getUserName()}</h3>
       <Menu onClick={() => {}} selectedKeys={[]}>
         <Menu.Item key="create-house" icon={<FileAddOutlined />}>
           <Link to="/houses/create">Create New House</Link>
@@ -32,7 +38,11 @@ const SidebarContent = () => {
         <Menu.Item key="view-houses" icon={<UnorderedListOutlined />}>
           <Link to="/houses/all">Manage Your House Tasks</Link>
         </Menu.Item>
-        <Menu.Item key="log-out" icon={<LogoutOutlined />}>
+        <Menu.Item
+          onClick={logoutHandler}
+          key="log-out"
+          icon={<LogoutOutlined />}
+        >
           Log Out
         </Menu.Item>
       </Menu>

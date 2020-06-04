@@ -1,6 +1,8 @@
 import React from "react";
 import { Form, Input, Button } from "antd";
+import { useToasts } from "react-toast-notifications";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import { setAuthToken, setAuthUser } from "../../utils";
 import HTTPClient from "../../HTTPClient";
 import "./login.css";
 
@@ -9,13 +11,26 @@ const client = new HTTPClient(process.env.REACT_APP_API_URL, {
 });
 
 export const LoginForm = () => {
+  const { addToast } = useToasts();
   const onFinish = async (values) => {
     console.log("Received values of form: ", values);
     const res = await client.post("auth/login", {
       identifier: values["identifier"],
       password: values["password"],
     });
-    console.log(res);
+    const { data, success } = res;
+    if (success && data) {
+      setAuthToken(data.data.access_token);
+      setAuthUser(data.data.username);
+      addToast("Logged in successfully. Redirecting.", {
+        appearance: "success",
+      });
+      setTimeout(() => (window.location = "/houses/all"), 700);
+    } else {
+      addToast("Invalid username/password combination", {
+        appearance: "error",
+      });
+    }
   };
 
   return (
