@@ -12,6 +12,7 @@ import {
 import { createBrowserHistory } from "history";
 import { LoginForm } from "./components/login/login";
 import { RegForm } from "./components/register/registration";
+import { NewHouse } from "./components/House/create-house";
 
 import SidebarWrapper from "./components/SidebarWrapper";
 
@@ -67,6 +68,7 @@ export default () => (
       <Route exact path="/" component={() => <h2>Home page!!</h2>} />
       <Route path="/login" component={ LoginForm } />
       <Route path="/registration" component={ RegForm } />
+      <Route path="/houses/create" component={ NewHouse } />
       <PrivateRoute
         path="/profile"
         component={() => (
