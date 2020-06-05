@@ -1,5 +1,6 @@
 import React from "react";
 import { Form, Input, Button } from "antd";
+import { Link } from "react-router-dom";
 import { useToasts } from "react-toast-notifications";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { setAuthToken, setAuthUser } from "../../utils";
@@ -41,7 +42,7 @@ export const LoginForm = () => {
       }}
       onFinish={onFinish}
     >
-      <h3>TaskApp</h3>
+      <h3>TaskApp </h3>
       <Form.Item
         className="input-field"
         name="identifier"
@@ -87,8 +88,10 @@ export const LoginForm = () => {
           >
             Log In
           </Button>
+          <br />
+          <br />
           <p>
-            <a href="./registration">Or Register Now!</a>
+            <Link to="/registration">Or Register Now!</Link>
           </p>
         </Form.Item>
       </Form.Item>

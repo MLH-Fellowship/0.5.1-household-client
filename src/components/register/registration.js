@@ -1,14 +1,9 @@
-import React from 'react';
-import { Redirect } from 'react-router-dom';
-import { useToasts } from "react-toast-notifications"
-import  HTTPClient  from '../../../src/HTTPClient';
-import {
-  Form,
-  Input,
-  Tooltip,
-  Button,
-} from 'antd';
-import { QuestionCircleOutlined } from '@ant-design/icons';
+import React, { useState } from "react";
+import { Redirect, Link } from "react-router-dom";
+import { useToasts } from "react-toast-notifications";
+import HTTPClient from "../../../src/HTTPClient";
+import { Form, Input, Tooltip, Button } from "antd";
+import { QuestionCircleOutlined } from "@ant-design/icons";
 
 import "./register.css";
 
@@ -35,25 +30,28 @@ const client = new HTTPClient(process.env.REACT_APP_API_URL, {});
 
 export const RegForm = () => {
   const { addToast } = useToasts();
-    const onFinish = async (values) => {
-      const res = await client.post("auth/register", {
-        username: values["username"],
-        email: values["email"],
-        password: values["password"],
+  const [loading, setLoading] = useState(false);
+  const onFinish = async (values) => {
+    setLoading(true);
+    const res = await client.post("auth/register", {
+      username: values["username"],
+      email: values["email"],
+      password: values["password"],
+    });
+    const { data, success } = res;
+    if (success && data) {
+      addToast("Successfully Registered. Redirecting.", {
+        appearance: "success",
       });
-      const { data, success } = res;
-      if (success && data) {
-        addToast("Successfully Registered. Redirecting.", {
-          appearance: "success",
-        });
-        setTimeout(() => (window.location = "/login"), 700);
-      } else {
-        addToast("Could not Register", {
-          appearance: "error",
-        });
-      }
+      setTimeout(() => (window.location = "/login"), 700);
+    } else {
+      addToast("Could not Register", {
+        appearance: "error",
+      });
     }
-  
+    setLoading(false);
+  };
+
   return (
     <Form
       {...formItemLayout}
@@ -142,12 +140,13 @@ export const RegForm = () => {
       </Form.Item>
 
       <Form.Item className="button-align">
-        <Button type="primary" htmlType="submit">
-          Click to Register
+        <Button disabled={loading} type="primary" htmlType="submit">
+          {!loading ? "Click to Register" : "Please wait"}
         </Button>
         <br />
+        <br />
         <p>
-          <a href="./login">Already have an account? Login here!</a>
+          <Link to="/login">Already have an account? Login here!</Link>
         </p>
       </Form.Item>
     </Form>
