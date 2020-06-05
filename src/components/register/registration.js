@@ -1,6 +1,14 @@
-import React from "react";
-import { Form, Input, Tooltip, Button } from "antd";
-import { QuestionCircleOutlined } from "@ant-design/icons";
+import React from 'react';
+import { Redirect } from 'react-router-dom';
+import { useToasts } from "react-toast-notifications"
+import  HTTPClient  from '../../../src/HTTPClient';
+import {
+  Form,
+  Input,
+  Tooltip,
+  Button,
+} from 'antd';
+import { QuestionCircleOutlined } from '@ant-design/icons';
 
 import "./register.css";
 
@@ -23,23 +31,38 @@ const formItemLayout = {
   },
 };
 
+const client = new HTTPClient(process.env.REACT_APP_API_URL, {});
+
 export const RegForm = () => {
-  const [form] = Form.useForm();
-
-  const onFinish = (values) => {
-    console.log("Received values of form: ", values);
-  };
-
+  const { addToast } = useToasts();
+    const onFinish = async (values) => {
+      const res = await client.post("auth/register", {
+        username: values["username"],
+        email: values["email"],
+        password: values["password"],
+      });
+      const { data, success } = res;
+      if (success && data) {
+        addToast("Successfully Registered. Redirecting.", {
+          appearance: "success",
+        });
+        setTimeout(() => (window.location = "/login"), 700);
+      } else {
+        addToast("Could not Register", {
+          appearance: "error",
+        });
+      }
+    }
+  
   return (
     <Form
       {...formItemLayout}
-      form={form}
       name="register"
       onFinish={onFinish}
       className="register-box"
       scrollToFirstError
     >
-      <h3>TaskApp 🏘️</h3>
+      <h3>Register Here!</h3>
       <Form.Item
         name="username"
         label={
