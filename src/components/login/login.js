@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Form, Input, Button } from "antd";
 import { Link } from "react-router-dom";
 import { useToasts } from "react-toast-notifications";
@@ -13,7 +13,9 @@ const client = new HTTPClient(process.env.REACT_APP_API_URL, {
 
 export const LoginForm = () => {
   const { addToast } = useToasts();
+  const [loading, setLoading] = useState(false);
   const onFinish = async (values) => {
+    setLoading(true);
     const res = await client.post("auth/login", {
       identifier: values["identifier"],
       password: values["password"],
@@ -25,12 +27,13 @@ export const LoginForm = () => {
       addToast("Logged in successfully. Redirecting.", {
         appearance: "success",
       });
-      setTimeout(() => (window.location = "/houses/all"), 700);
+      setTimeout(() => (window.location = "/houses/all"), 400);
     } else {
       addToast("Invalid username/password combination", {
         appearance: "error",
       });
     }
+    setLoading(false);
   };
 
   return (
@@ -82,11 +85,12 @@ export const LoginForm = () => {
         </Form.Item>
         <Form.Item>
           <Button
+            disabled={loading}
             type="primary"
             htmlType="submit"
             className="login-form-button"
           >
-            Log In
+            {!loading ? "Login" : "Please wait"}
           </Button>
           <br />
           <br />
