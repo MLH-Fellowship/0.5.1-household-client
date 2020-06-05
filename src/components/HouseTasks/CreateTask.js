@@ -29,10 +29,15 @@ class CreateTask extends React.Component {
         description: this.state.description,
         frequency: this.state.frequency,
       })
-      .then((_) => {
+      .then((res) => {
         this.props.addToast("Created task successfully.", {
           appearance: "success",
         });
+
+        const redirectURL =
+          houseId !== undefined ? `/houses/${houseId}` : "/houses/all";
+        // setTimeout(() => this.setState({ redirect: redirectURL }), 600);
+        setTimeout(() => (window.location = redirectURL), 800);
       })
       .catch((error) => {
         this.props.addToast("Fetched failed to create the task.", {

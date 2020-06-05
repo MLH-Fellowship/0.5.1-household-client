@@ -4,10 +4,11 @@ import { PlusOutlined } from "@ant-design/icons";
 import withToast from "../WithToast";
 import HouseTasks from "../HouseTasks/HouseTasks";
 import CreateTask from "../HouseTasks/CreateTask";
+import EditTask from "../HouseTasks/EditTask";
 
 import "./index.css";
 
-const CreateHouseDrawer = ({ onClose, isVisible }) => {
+const CreateHouseDrawer = ({ onClose, isVisible, houseId }) => {
   return (
     <Drawer
       title="Create a new task"
@@ -27,12 +28,12 @@ const CreateHouseDrawer = ({ onClose, isVisible }) => {
         </div>
       }
     >
-      <CreateTask />
+      <CreateTask houseId={houseId} />
     </Drawer>
   );
 };
 
-const EditHouseDrawer = ({ onClose, isVisible }) => {
+const EditHouseDrawer = ({ onClose, isVisible, houseId }) => {
   return (
     <Drawer
       title="Edit a task"
@@ -52,7 +53,7 @@ const EditHouseDrawer = ({ onClose, isVisible }) => {
         </div>
       }
     >
-      <CreateTask />
+      <EditTask houseId={houseId} />
     </Drawer>
   );
 };
@@ -81,10 +82,12 @@ class HouseDetail extends React.Component {
           <PlusOutlined /> Create Task
         </Button>
         <CreateHouseDrawer
+          houseId={id}
           onClose={this.toggleCreateDrawerState}
           isVisible={createdrawerOpen}
         />
         <EditHouseDrawer
+          houseId={id}
           onClose={this.toggleEditDrawerState}
           isVisible={editdrawerOpen}
         />

@@ -40,7 +40,7 @@ class EditTask extends React.Component {
         });
         const redirectURL =
           houseId !== undefined ? `/houses/${houseId}` : "/houses/all";
-        setTimeout(() => this.setState({ redirect: redirectURL }), 1000);
+        setTimeout(() => this.setState({ redirect: redirectURL }), 600);
       })
       .catch((error) => {
         this.props.addToast("Fetched failed to update the task.", {

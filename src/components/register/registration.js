@@ -1,16 +1,11 @@
-import React from 'react';
-import { Redirect } from 'react-router-dom';
-import { useToasts } from "react-toast-notifications"
-import  HTTPClient  from '../../../src/HTTPClient';
-import {
-  Form,
-  Input,
-  Tooltip,
-  Button,
-} from 'antd';
-import { QuestionCircleOutlined } from '@ant-design/icons';
+import React, { useState } from "react";
+import { Redirect, Link } from "react-router-dom";
+import { useToasts } from "react-toast-notifications";
+import HTTPClient from "../../../src/HTTPClient";
+import { Form, Input, Tooltip, Button } from "antd";
+import { QuestionCircleOutlined } from "@ant-design/icons";
 
-import './register.css';
+import "./register.css";
 
 const formItemLayout = {
   labelCol: {
@@ -35,25 +30,28 @@ const client = new HTTPClient(process.env.REACT_APP_API_URL, {});
 
 export const RegForm = () => {
   const { addToast } = useToasts();
-    const onFinish = async (values) => {
-      const res = await client.post("auth/register", {
-        username: values["username"],
-        email: values["email"],
-        password: values["password"],
+  const [loading, setLoading] = useState(false);
+  const onFinish = async (values) => {
+    setLoading(true);
+    const res = await client.post("auth/register", {
+      username: values["username"],
+      email: values["email"],
+      password: values["password"],
+    });
+    const { data, success } = res;
+    if (success && data) {
+      addToast("Successfully Registered. Redirecting.", {
+        appearance: "success",
       });
-      const { data, success } = res;
-      if (success && data) {
-        addToast("Successfully Registered. Redirecting.", {
-          appearance: "success",
-        });
-        setTimeout(() => (window.location = "/login"), 700);
-      } else {
-        addToast("Could not Register", {
-          appearance: "error",
-        });
-      }
+      setTimeout(() => (window.location = "/login"), 700);
+    } else {
+      addToast("Could not Register", {
+        appearance: "error",
+      });
     }
-  
+    setLoading(false);
+  };
+
   return (
     <Form
       {...formItemLayout}
@@ -76,7 +74,7 @@ export const RegForm = () => {
         rules={[
           {
             required: true,
-            message: 'Please input your Username!',
+            message: "Please input your Username!",
             whitespace: true,
           },
         ]}
@@ -89,12 +87,12 @@ export const RegForm = () => {
         label="E-mail"
         rules={[
           {
-            type: 'email',
-            message: 'The input is not valid E-mail!',
+            type: "email",
+            message: "The input is not valid E-mail!",
           },
           {
             required: true,
-            message: 'Please input your E-mail!',
+            message: "Please input your E-mail!",
           },
         ]}
       >
@@ -107,7 +105,7 @@ export const RegForm = () => {
         rules={[
           {
             required: true,
-            message: 'Please input your Password!',
+            message: "Please input your Password!",
           },
         ]}
         hasFeedback
@@ -118,20 +116,22 @@ export const RegForm = () => {
       <Form.Item
         name="confirm"
         label="Confirm Password"
-        dependencies={['password']}
+        dependencies={["password"]}
         hasFeedback
         rules={[
           {
             required: true,
-            message: 'Please confirm your Password!',
+            message: "Please confirm your Password!",
           },
           ({ getFieldValue }) => ({
             validator(rule, value) {
-              if (!value || getFieldValue('password') === value) {
+              if (!value || getFieldValue("password") === value) {
                 return Promise.resolve();
               }
 
-              return Promise.reject('The two passwords that you entered do not match!');
+              return Promise.reject(
+                "The two passwords that you entered do not match!"
+              );
             },
           }),
         ]}
@@ -140,10 +140,14 @@ export const RegForm = () => {
       </Form.Item>
 
       <Form.Item className="button-align">
-        <Button type="primary" htmlType="submit">
-          Click to Register
+        <Button disabled={loading} type="primary" htmlType="submit">
+          {!loading ? "Click to Register" : "Please wait"}
         </Button>
-        <p><a href="./login">Already have an account? Login here!</a></p>
+        <br />
+        <br />
+        <p>
+          <Link to="/login">Already have an account? Login here!</Link>
+        </p>
       </Form.Item>
     </Form>
   );
