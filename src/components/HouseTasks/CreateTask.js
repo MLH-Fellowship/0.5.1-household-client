@@ -21,29 +21,48 @@ class CreateTask extends React.Component {
     };
     this.createTask = this.createTask.bind(this);
   }
-  createTask() {
+  async createTask() {
     const { houseId } = this.props;
-    client
-      .post(`/house/${houseId}/task/add`, {
-        name: this.state.name,
-        description: this.state.description,
-        frequency: this.state.frequency,
-      })
-      .then((res) => {
-        this.props.addToast("Created task successfully.", {
-          appearance: "success",
-        });
-
-        const redirectURL =
-          houseId !== undefined ? `/houses/${houseId}` : "/houses/all";
-        // setTimeout(() => this.setState({ redirect: redirectURL }), 600);
-        setTimeout(() => (window.location = redirectURL), 800);
-      })
-      .catch((error) => {
-        this.props.addToast("Fetched failed to create the task.", {
-          appearance: "error",
-        });
+    const { success, data } = await client.post(`/house/${houseId}/task/add`, {
+      name: this.state.name,
+      description: this.state.description,
+      frequency: this.state.frequency,
+    });
+    if (success) {
+      this.props.addToast("Created task successfully.", {
+        appearance: "success",
       });
+
+      const redirectURL =
+        houseId !== undefined ? `/houses/${houseId}` : "/houses/all";
+      // setTimeout(() => this.setState({ redirect: redirectURL }), 600);
+      setTimeout(() => (window.location = redirectURL), 800);
+    } else {
+      this.props.addToast("Fetched failed to create the task.", {
+        appearance: "error",
+      });
+    }
+    // client
+    //   .post(`/house/${houseId}/task/add`, {
+    //     name: this.state.name,
+    //     description: this.state.description,
+    //     frequency: this.state.frequency,
+    //   })
+    //   .then((res) => {
+    //     this.props.addToast("Created task successfully.", {
+    //       appearance: "success",
+    //     });
+
+    //     const redirectURL =
+    //       houseId !== undefined ? `/houses/${houseId}` : "/houses/all";
+    //     // setTimeout(() => this.setState({ redirect: redirectURL }), 600);
+    //     setTimeout(() => (window.location = redirectURL), 800);
+    //   })
+    //   .catch((error) => {
+    //     this.props.addToast("Fetched failed to create the task.", {
+    //       appearance: "error",
+    //     });
+    //   });
   }
   render() {
     if (this.state.redirect) {
