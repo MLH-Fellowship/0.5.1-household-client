@@ -1,13 +1,8 @@
-import React from 'react';
-import {
-  Form,
-  Input,
-  Tooltip,
-  Button,
-} from 'antd';
-import { QuestionCircleOutlined } from '@ant-design/icons';
+import React from "react";
+import { Form, Input, Tooltip, Button } from "antd";
+import { QuestionCircleOutlined } from "@ant-design/icons";
 
-import './register.css';
+import "./register.css";
 
 const formItemLayout = {
   labelCol: {
@@ -31,8 +26,8 @@ const formItemLayout = {
 export const RegForm = () => {
   const [form] = Form.useForm();
 
-  const onFinish = values => {
-    console.log('Received values of form: ', values);
+  const onFinish = (values) => {
+    console.log("Received values of form: ", values);
   };
 
   return (
@@ -44,6 +39,7 @@ export const RegForm = () => {
       className="register-box"
       scrollToFirstError
     >
+      <h3>TaskApp 🏘️</h3>
       <Form.Item
         name="username"
         label={
@@ -57,7 +53,7 @@ export const RegForm = () => {
         rules={[
           {
             required: true,
-            message: 'Please input your Username!',
+            message: "Please input your Username!",
             whitespace: true,
           },
         ]}
@@ -70,12 +66,12 @@ export const RegForm = () => {
         label="E-mail"
         rules={[
           {
-            type: 'email',
-            message: 'The input is not valid E-mail!',
+            type: "email",
+            message: "The input is not valid E-mail!",
           },
           {
             required: true,
-            message: 'Please input your E-mail!',
+            message: "Please input your E-mail!",
           },
         ]}
       >
@@ -88,7 +84,7 @@ export const RegForm = () => {
         rules={[
           {
             required: true,
-            message: 'Please input your Password!',
+            message: "Please input your Password!",
           },
         ]}
         hasFeedback
@@ -99,20 +95,22 @@ export const RegForm = () => {
       <Form.Item
         name="confirm"
         label="Confirm Password"
-        dependencies={['password']}
+        dependencies={["password"]}
         hasFeedback
         rules={[
           {
             required: true,
-            message: 'Please confirm your Password!',
+            message: "Please confirm your Password!",
           },
           ({ getFieldValue }) => ({
             validator(rule, value) {
-              if (!value || getFieldValue('password') === value) {
+              if (!value || getFieldValue("password") === value) {
                 return Promise.resolve();
               }
 
-              return Promise.reject('The two passwords that you entered do not match!');
+              return Promise.reject(
+                "The two passwords that you entered do not match!"
+              );
             },
           }),
         ]}
@@ -124,7 +122,10 @@ export const RegForm = () => {
         <Button type="primary" htmlType="submit">
           Click to Register
         </Button>
-        <p><a href="./login">Already have an account? Login here!</a></p>
+        <br />
+        <p>
+          <a href="./login">Already have an account? Login here!</a>
+        </p>
       </Form.Item>
     </Form>
   );
