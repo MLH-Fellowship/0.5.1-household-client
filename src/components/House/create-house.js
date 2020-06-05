@@ -1,7 +1,7 @@
-import React from "react";
-import { Redirect } from "react-router-dom";
-import HTTPClient from "../../../src/HTTPClient";
-import { Form, Input, Button, Checkbox } from "antd";
+import React from 'react';
+import { Redirect } from 'react-router-dom';
+import  HTTPClient  from '../../../src/HTTPClient';
+import { Form, Input, Button } from 'antd';
 
 import withToast from "../WithToast";
 
@@ -107,13 +107,6 @@ class NewHouse extends React.Component {
             <a href="/houses/all">Go back to House List.</a>
           </p>
         </Form.Item>
-        {this.state.login === true && (
-          <Redirect
-            to={{
-              pathname: "/houses/all",
-            }}
-          />
-        )}
       </Form>
     );
   }
